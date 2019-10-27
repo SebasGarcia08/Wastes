@@ -131,19 +131,16 @@ public Product getLastProductAdded(){
     }
 
     public String showRelations(){
-        String msg = "LIST OF RELATIONSHIPS:\n";
+        String msg = "LIST OF RELATIONS:\n";
         for(int i = 0; i < products.length; i++) { 
             String header = "";
             String corpus = "";
-            String indentation = "";
+            String indentation = "          ";
             if( products[i] != null && getWastesOf(getProducts()[i].getId()).length > 0){
                 Waste[] wastes_of_product_i = getWastesOf(getProducts()[i].getId());
                 header = products[i].toString() + "\n";
-                for(int j = 0; j < header.length()-30; j++){
-                    indentation += " ";
-                } 
-                for(int n = 0; n < wastes_of_product_i.length; n++){
-                    corpus += indentation + "|\n" + indentation + "---> " + wastes_of_product_i[n].toString() + "\n";
+                for(int j = 0; j < wastes_of_product_i.length; j++){
+                    corpus += indentation + "|\n" + indentation + "---- produces --> " + wastes_of_product_i[j].toString() + "\n";
                 }
             }
             msg += header + corpus;

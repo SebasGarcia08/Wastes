@@ -51,6 +51,18 @@ public class Main {
         out.println(controller.showProducts());
         String product_id = reqProductIdForAddingWaste();
         out.println("REGISTERING WASTE...");
+        
+        String id, name, origin, color; 
+        int decomposition_days;
+        
+        id = reqWasteId();
+        name = reqWasteName();
+        origin = reqOrigin();
+        out.print("Decomposition days: ");
+        decomposition_days = sc_num.nextInt();
+        out.print("Color: ");
+        color = sc_str.nextLine();
+
         boolean valid_type_of_waste = false;
         char type_of_waste;
         while(!valid_type_of_waste){
@@ -63,7 +75,7 @@ public class Main {
                     break;
                 case 'R':
                     valid_type_of_waste = true;
-                    registerWasteR(product_id);
+                    registerWasteR(id, name, origin, color, decomposition_days, product_id);
                     break;
                 case 'I': 
                     valid_type_of_waste = true;
@@ -76,21 +88,12 @@ public class Main {
         }
     }
 
-    public void registerWasteR(String product_id){
-        String id, name, origin, color, description = "Not required", type = ""; 
-        int decomposition_days;
-        id = reqWasteId();
-        name = reqWasteName();
-        origin = reqOrigin();
-        
+    public void registerWasteR(String id, String name, String origin, String color, int decomposition_days, String product_id){        
+        String description = "Not required", type = "";
         if(origin == Waste.DOM || origin == Waste.IND){
-            out.print("For industrials and domicilaries is required a description...\n...of what is the most appropriate way to make the disposition of these elements: ");
+            out.print("For industrials and domicilaries recyclable wastes is required a description...\n...of what is the most appropriate way to make the disposition of these elements: ");
             description = sc_str.nextLine();
         }
-
-        out.print("Color: ");
-        color = sc_str.nextLine();
-
         // Requesting a valid choice of type
         boolean valid_type = false;
         int election;
@@ -112,8 +115,6 @@ public class Main {
                     out.println("Invalid type. Try again:"); break;
             }
         }
-        out.print("Decomposition days: ");
-        decomposition_days = sc_num.nextInt();
         controller.addWasteR(id, name, origin, color, decomposition_days, type, description);
         controller.makeRelation(product_id);
     }
