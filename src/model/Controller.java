@@ -46,8 +46,8 @@ public Product getLastProductAdded(){
 }
 
 // ================================================================= WASTE ADDERS =================================================================
-    public void addWasteR(String waste_id, String name, String origin, String color, int decomposition_days, String type){
-            appendWaste(new Recyclable(waste_id, name, origin, color, decomposition_days, type));
+    public void addWasteR(String waste_id, String name, String origin, String color, int decomposition_days, String type, String description){
+            appendWaste(new Recyclable(waste_id, name, origin, color, decomposition_days, type, description));
     }
     
 // ================================================================= PORDUCT ADDER =================================================================
@@ -123,15 +123,15 @@ public Product getLastProductAdded(){
     }
 
     public String showProducts(){
-        String res = "";
+        String res = "LIST OF PRODUCTS ADDED:\n";
         for(int i = 0; i < products.length; i++) {
-            res += products[i].toString() + "\n";
+            res += i+")" + ".  " + products[i].toString() + "\n";
         }
         return res;
     }
 
     public String showRelations(){
-        String msg = "";
+        String msg = "LIST OF RELATIONSHIPS:\n";
         for(int i = 0; i < products.length; i++) { 
             String header = "";
             String corpus = "";
@@ -139,11 +139,11 @@ public Product getLastProductAdded(){
             if( products[i] != null && getWastesOf(getProducts()[i].getId()).length > 0){
                 Waste[] wastes_of_product_i = getWastesOf(getProducts()[i].getId());
                 header = products[i].toString() + "\n";
-                for(int j = 0; j < header.length(); j++){
+                for(int j = 0; j < header.length()-30; j++){
                     indentation += " ";
                 } 
                 for(int n = 0; n < wastes_of_product_i.length; n++){
-                    corpus += indentation + "|\n" + indentation + "----- " + wastes_of_product_i[n].toString() + "\n";
+                    corpus += indentation + "|\n" + indentation + "---> " + wastes_of_product_i[n].toString() + "\n";
                 }
             }
             msg += header + corpus;

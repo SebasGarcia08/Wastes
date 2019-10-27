@@ -48,13 +48,13 @@ public class Main {
     }
 
     public void registerWaste(){
-        out.println("REGISTERING WASTE...");
         out.println(controller.showProducts());
         String product_id = reqProductIdForAddingWaste();
+        out.println("REGISTERING WASTE...");
         boolean valid_type_of_waste = false;
         char type_of_waste;
         while(!valid_type_of_waste){
-            out.print("Choose the type of waste produced by your selected product: \nB: Biodegradable\nR: Recyclable\nI: Inert\nChoose [B/R/I]: ");
+            out.print("Choose the type of waste produced by your selected product: \n[B]iodegradable\n[R]ecyclable\n[I]nert\nChoose [B/R/I]: ");
             type_of_waste = sc_str.nextLine().toUpperCase().charAt(0);
             switch(type_of_waste){
                 case 'B':
@@ -77,20 +77,44 @@ public class Main {
     }
 
     public void registerWasteR(String product_id){
-        String id, name, origin, color, type; 
+        String id, name, origin, color, description = "Not required", type = ""; 
         int decomposition_days;
         id = reqWasteId();
         name = reqWasteName();
         origin = reqOrigin();
+        
+        if(origin == Waste.DOM || origin == Waste.IND){
+            out.print("For industrials and domicilaries is required a description...\n...of what is the most appropriate way to make the disposition of these elements: ");
+            description = sc_str.nextLine();
+        }
+
         out.print("Color: ");
         color = sc_str.nextLine();
 
-        out.print("Type: ");
-        type = sc_str.nextLine();
-        
+        // Requesting a valid choice of type
+        boolean valid_type = false;
+        int election;
+        while(!valid_type){
+            out.print("Choose the type of recyclable waste: \n[1] PAPER\n[2] CARTON\n[3] GLASS\n[4] PLASTIC\n[5] METALS\nElection[1/2/3/4/5]: ");
+            election = sc_num.nextInt();
+            switch(election){
+                case 1:
+                    type = Recyclable.PAP; valid_type = true; break;
+                case 2:
+                    type = Recyclable.CAR; valid_type = true;  break;
+                case 3:
+                    type = Recyclable.GLA; valid_type = true; break;
+                case 4:
+                    type = Recyclable.PLS; valid_type = true; break;
+                case 5: 
+                    type = Recyclable.MET; valid_type = true; break;
+                default:
+                    out.println("Invalid type. Try again:"); break;
+            }
+        }
         out.print("Decomposition days: ");
         decomposition_days = sc_num.nextInt();
-        controller.addWasteR(id, name, origin, color, decomposition_days, type);
+        controller.addWasteR(id, name, origin, color, decomposition_days, type, description);
         controller.makeRelation(product_id);
     }
 

@@ -11,11 +11,11 @@ public class Recyclable extends Waste {
     private String type;
     private String description;
     private static int numberOfObjs = 0;
-
     
-    public Recyclable(String id, String name, String origin, String color, int decomposition_days, String type) {
+    public Recyclable(String id, String name, String origin, String color, int decomposition_days, String type, String description) {
         super(id, name, origin, color, decomposition_days);
         this.type = type;
+        this.description = description;
         ++numberOfObjs;
     }
 
