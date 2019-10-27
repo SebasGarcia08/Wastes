@@ -46,7 +46,7 @@ public class Main {
             out.println(controller.showRelations());
         }
     }
-
+// ============================================================== REGISTER WASTE CENTER ================================================================
     public void registerWaste(){
         out.println(controller.showProducts());
         String product_id = reqProductIdForAddingWaste();
@@ -71,7 +71,7 @@ public class Main {
             switch(type_of_waste){
                 case 'B':
                     valid_type_of_waste = true;
-                    // registerWasteB();
+                    registerWasteB(id, name, origin, color, decomposition_days, product_id);
                     break;
                 case 'R':
                     valid_type_of_waste = true;
@@ -79,7 +79,7 @@ public class Main {
                     break;
                 case 'I': 
                     valid_type_of_waste = true;
-                    // registerWasteI();
+                    registerWasteI(id, name, origin, color, decomposition_days, product_id);
                     break;
                 default:
                     out.println("Invalid choice. Choose 'B', 'R', or 'I'");
@@ -88,6 +88,28 @@ public class Main {
         }
     }
 
+// ============================================================== REGISTER Biodegradable WASTE  ================================================================
+    public void registerWasteB(String id, String name, String origin, String color, int decomposition_days, String product_id){
+        char y_n;
+        boolean valid_y_n = false;
+        boolean isSuitableForComposting = false;
+        while(!valid_y_n){
+            out.print("This biodegradable waste is suitable for composting? [y/n]: ");
+            y_n = sc_str.nextLine().toLowerCase().charAt(0);
+            switch(y_n){
+                case 'y':
+                    isSuitableForComposting = true; valid_y_n = true; break;
+                case 'n':
+                    isSuitableForComposting = false; valid_y_n = true; break;
+                default:
+                    out.println("Invalid choice. Try again:"); break;    
+            }
+        }
+        controller.addWasteB(id, name,  origin,  color,  decomposition_days, isSuitableForComposting);
+        controller.makeRelation(product_id);
+    }
+
+// ============================================================== REGISTER Recyclable WASTE  ================================================================
     public void registerWasteR(String id, String name, String origin, String color, int decomposition_days, String product_id){        
         String description = "Not required", type = "";
         if(origin == Waste.DOM || origin == Waste.IND){
@@ -119,6 +141,15 @@ public class Main {
         controller.makeRelation(product_id);
     }
 
+// ============================================================== REGISTER Inert WASTE  ================================================================
+    public void registerWasteI(String id, String name, String origin, String color, int decomposition_days, String product_id){
+        out.print("Inert wastes have tips for dealing with them, write them: ");
+        String tips = sc_str.nextLine();
+        controller.addWasteI(id, name, origin, color, decomposition_days, tips);
+        controller.makeRelation(product_id);
+    }
+
+// ============================================================== PRODUCT REGISTERERS  ================================================================
     public void registerProduct(){
         // String id, String name, String description
         out.println("REGISTERING PRODUCT...");
@@ -149,12 +180,14 @@ public class Main {
                     registerProduct();
                     valid_id = controller.getLastProductAdded().getId();
                     is_valid_id = true;
+                } else {
+                    out.println("Invalid choice, try again");
                 }
             }
         }
         return valid_id;
     }
-
+// ============================================================== REQUESTER METHODS  ================================================================
     public String reqProductId(){
         boolean valid = false;
         String id = "";

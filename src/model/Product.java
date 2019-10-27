@@ -4,11 +4,17 @@ public class Product{
     private String id;
     private String name;
     private String description;
+    private static int numberOfObjs = 0;
 
     public Product(String id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
+        ++numberOfObjs;
+    }
+
+    public static int getNumberOfObjs(){
+        return numberOfObjs;
     }
 
     public String getId() {

@@ -46,8 +46,16 @@ public Product getLastProductAdded(){
 }
 
 // ================================================================= WASTE ADDERS =================================================================
+    public void addWasteB(String id, String name, String origin, String color, int decomposition_days, boolean isSuitableForComposting){
+             appendWaste(new Biodegradable(id, name,  origin,  color,  decomposition_days, isSuitableForComposting));
+    }
+    
     public void addWasteR(String waste_id, String name, String origin, String color, int decomposition_days, String type, String description){
             appendWaste(new Recyclable(waste_id, name, origin, color, decomposition_days, type, description));
+    }
+
+    public void addWasteI(String id, String name, String origin, String color, int decomposition_days, String tips){
+            appendWaste(new Inert(id, name, origin, color, decomposition_days, tips));
     }
     
 // ================================================================= PORDUCT ADDER =================================================================
@@ -145,6 +153,10 @@ public Product getLastProductAdded(){
             }
             msg += header + corpus;
         }
+        msg +=  "\n" + Biodegradable.getNumberOfObjs() + " Biodegradable wastes created: " + "\n" + 
+                Recyclable.getNumberOfObjs() + " Recyclable wastes created: " + "\n" + 
+                Inert.getNumberOfObjs() + " Inert wastes created: " + "\n" + 
+                Product.getNumberOfObjs() + " Products created \n";
         return msg;
     }
 
