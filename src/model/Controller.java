@@ -131,35 +131,51 @@ public Product getLastProductAdded(){
     }
 
     public String showRelations(){
-        return Arrays.toString(getRelations());
+        String msg = "";
+        for(int i = 0; i < products.length; i++) { 
+            String header = "";
+            String corpus = "";
+            String indentation = "";
+            if( products[i] != null && getWastesOf(getProducts()[i].getId()).length > 0){
+                Waste[] wastes_of_product_i = getWastesOf(getProducts()[i].getId());
+                header = products[i].toString() + "\n";
+                for(int j = 0; j < header.length(); j++){
+                    indentation += " ";
+                } 
+                for(int n = 0; n < wastes_of_product_i.length; n++){
+                    corpus += indentation + "|\n" + indentation + "----- " + wastes_of_product_i[n].toString() + "\n";
+                }
+            }
+            msg += header + corpus;
+        }
+        return msg;
     }
 
 // ================================================================= GETTERS AND SETTERS =================================================================
     
-    // public Waste[] getWastesOf(String product_id){
-    //     int[] relations = getRelations();
-    //     int product_position = searchProductById(product_id); // PRODUCT MUST EXIST AND MUST HAVE AT LEAST A RELATION
-    //     int count_wastes = 0;
-    //     // Count how many waste has product 
-    //     for(int i = 0; i < relations.length; i++){
-    //         count_wastes += (relations[i] == product_position) ? 1: 0;
-    //     }
-    //     Waste[] wastes_of_product = new Waste[count_wastes]; //Initialize output array
-    //     int n = 0;
-    //     for(int i = 0; i < relations.length; i++){
-    //         if(relations[i] == product_position){
-    //             wastes_of_product[n] = getWastes()[i];
-    //             n++;
-    //         }
-    //     }
-    //     return wastes_of_product;
-    // }
+    public Waste[] getWastesOf(String product_id){
+        int product_position = searchProductById(product_id); // PRODUCT MUST EXIST AND MUST HAVE AT LEAST A RELATION
+        int count_wastes = 0;
+        // Count how many waste has product 
+        for(int i = 0; i < getRelations().length; i++){
+            count_wastes += (getRelations()[i] == product_position) ? 1: 0;
+        }
+        Waste[] wastes_of_product = new Waste[count_wastes]; //Initialize output array
+        int n = 0;
+        for(int i = 0; i < getRelations().length; i++){
+            if(getRelations()[i] == product_position){
+                wastes_of_product[n] = getWastes()[i];
+                n++;
+            }
+        }
+        return wastes_of_product;
+    }
 
-    // public Product getProductOf(String waste_id){
-    //     int[] relations = getRelations();
-    //     int waste_position = searchWasteById(waste_id);
-    //     return getProducts()[ relations[waste_position] ]
-    // }
+    public Product getProductOf(String waste_id){
+        int[] relations = getRelations();
+        int waste_position = searchWasteById(waste_id);
+        return getProducts()[ relations[waste_position] ];
+    }
 
     public Product[] getProducts() {
         return products;
@@ -178,7 +194,7 @@ public Product getLastProductAdded(){
     }
 
     public int[] getRelations() {
-        return relations;
+        return this.relations;
     }
 
     public void setRelations(int[] relations) {

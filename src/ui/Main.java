@@ -17,13 +17,12 @@ public class Main {
 
     public static void main(String[] args){
         Main program = new Main();
-        out.println("WELCOME");
-        out.println("To begin, please create first a product and later the waste that it produces.");
-        program.registerProduct();
-        out.println(program.controller.showProducts());
-        program.registerWaste();
-        out.println(program.controller.showRelations());
-        out.println("Perfect, now, see the complete menu.");
+        // out.println("WELCOME");
+        // out.println("To begin, please create first a product and later the waste that it produces.");
+        // program.registerProduct();
+        // program.registerWaste();
+        // out.println(program.controller.showRelations());
+        // out.println("Perfect, now, see the complete menu.");
 
         int election = 1;
         
@@ -49,12 +48,13 @@ public class Main {
     }
 
     public void registerWaste(){
+        out.println("REGISTERING WASTE...");
         out.println(controller.showProducts());
         String product_id = reqProductIdForAddingWaste();
         boolean valid_type_of_waste = false;
         char type_of_waste;
         while(!valid_type_of_waste){
-            out.print("Choose the type of waste that the product you selected produces: \nB: Biodegradable\nR: Recyclable\nI: Inert\nChoose [B/R/I]: ");
+            out.print("Choose the type of waste produced by your selected product: \nB: Biodegradable\nR: Recyclable\nI: Inert\nChoose [B/R/I]: ");
             type_of_waste = sc_str.nextLine().toUpperCase().charAt(0);
             switch(type_of_waste){
                 case 'B':
@@ -84,8 +84,10 @@ public class Main {
         origin = reqOrigin();
         out.print("Color: ");
         color = sc_str.nextLine();
+
         out.print("Type: ");
         type = sc_str.nextLine();
+        
         out.print("Decomposition days: ");
         decomposition_days = sc_num.nextInt();
         controller.addWasteR(id, name, origin, color, decomposition_days, type);

@@ -5,6 +5,13 @@
             "name": "CodeLens (Launch) - Main",
             "request": "launch",
             "mainClass": "ui.Main",
+            "projectName": "Wastes_dcbfd08e"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Main",
+            "request": "launch",
+            "mainClass": "ui.Main",
             "projectName": "Waste_ac484085"
         }
     ]
