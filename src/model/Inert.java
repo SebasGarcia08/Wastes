@@ -25,8 +25,6 @@ public class Inert extends Waste{
 
     @Override
     public String toString() {
-        return super.toString() +
-            " tips='" + getTips() + "'" +
-            "}";
+        return super.toString() + ", tips: " + getTips() + ")\n";
     }
 }

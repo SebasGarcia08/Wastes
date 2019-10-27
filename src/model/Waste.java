@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Waste {
+public abstract class Waste implements Comparable<Waste> {
     public static final String IND = "industrials";
     public static final String DOM = "domiciliaries";
     public static final String MUN = "municipals";
@@ -15,6 +15,7 @@ public abstract class Waste {
     private String origin;
     private String color;
 	private int decomposition_days; // In days
+	private double harmful_effect = 0;
 
 	public Waste(String id, String name, String origin, String color, int decomposition_days) {
 		this.id = id;
@@ -22,6 +23,12 @@ public abstract class Waste {
 		this.origin = origin;
 		this.color = color;
 		this.decomposition_days = decomposition_days;
+		this.harmful_effect = calculateHarmfulEffect();
+	}
+
+	@Override
+	public int compareTo(Waste another_waste){
+		return (int) (this.harmful_effect - another_waste.harmful_effect); 
 	}
 	
     public double calculateHarmfulEffect() {

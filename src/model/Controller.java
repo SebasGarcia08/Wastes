@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class Controller {
     private Product[] products;
@@ -133,7 +134,7 @@ public Product getLastProductAdded(){
     }
 
 // ================================================================= SHOWS =================================================================
-    public String showWastes(){
+    public String showWastes(Waste[] wastes){
         char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l','m', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
         int alfa_counter = 0;
         String res = "";
@@ -145,38 +146,58 @@ public Product getLastProductAdded(){
         Inert[] inert_array = new Inert[Inert.getNumberOfObjs()];
         int r = 0;
 
-        for(int i = 0; i < getWastes().length; i++) {
-            if( getWastes()[i] instanceof Biodegradable){
-                bio_array[j] = (Biodegradable) getWastes()[i];
+        for(int i = 0; i < wastes.length; i++) {
+            if( wastes[i] instanceof Biodegradable){
+                bio_array[j] = (Biodegradable) wastes[i];
                 j++;
-            } else if( getWastes()[i] instanceof Recyclable){
-                rec_array[n] = (Recyclable) getWastes()[i];
+            } else if( wastes[i] instanceof Recyclable){
+                rec_array[n] = (Recyclable) wastes[i];
                 n++;
             } else {
-                inert_array[r] = (Inert) getWastes()[i];
+                inert_array[r] = (Inert) wastes[i];
                 r++;
             }
         }
 
         res += "Biodegradable \n";
         for(int i = 0; i < bio_array.length; i++) {
-            res += alphabet[alfa_counter] + ".    " + bio_array[i].toString();
+            res += "   " + alphabet[alfa_counter] + ".    " + bio_array[i].toString();
             alfa_counter = (alfa_counter > alphabet.length-1) ? 0 : alfa_counter + 1;
         }
 
         res +="Recyclable \n";
         for(int i = 0; i < rec_array.length; i++) {
-            res += alphabet[alfa_counter] + ".    " + rec_array[i].toString();
+            res += "   " + alphabet[alfa_counter] + ".    " + rec_array[i].toString();
             alfa_counter = (alfa_counter > alphabet.length-1) ? 0 : alfa_counter + 1;
         }
 
         res +="Inert \n";
         for(int i = 0; i < inert_array.length; i++) {
-            res += alphabet[alfa_counter] + ".    " + inert_array[i].toString();
+            res += "   " + alphabet[alfa_counter] + ".    " + inert_array[i].toString();
             alfa_counter = (alfa_counter > alphabet.length-1) ? 0 : alfa_counter + 1;
         }
-
         return res;
+    }
+
+    public String showWastesSortedByHarmfulEffect(Waste[] wastes){     
+        Waste[] array = wastes.clone();
+        String list_sorted = "Wastes sorted descendentially by harmful effect:\n";
+        
+        Waste temp;
+        for(int i = 0; i < array.length; i++){
+          for(int j = i +1; j<array.length; j++){
+            if(array[i].calculateHarmfulEffect() < array[j].calculateHarmfulEffect()){
+                temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+          }
+        }
+
+        for(Waste waste : array){
+            list_sorted += waste.toString();
+        }
+        return list_sorted;
     }
 
     public String showProducts(){
@@ -210,7 +231,6 @@ public Product getLastProductAdded(){
     }
 
 // ================================================================= GETTERS AND SETTERS =================================================================
-    
     public Waste[] getWastesOf(String product_id){
         int product_position = searchProductById(product_id); // PRODUCT MUST EXIST AND MUST HAVE AT LEAST A RELATION
         int count_wastes = 0;

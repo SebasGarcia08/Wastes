@@ -26,17 +26,16 @@ public class Main {
                         "\n[4] Search waste by name"+
                         "\n[5] Search wastes by product id"+
                         "\n[6] Show products added" +
-                        "\n[7] Determine if biodegradable or recyclable waste is useful" +
-                        "\n[8] List wastes by harmful effect" +
-                        "\n[9] Show all products and the their produced wastes" + 
-                        "\n[10] Exit" +
+                        "\n[7] List wastes by harmful effect" +
+                        "\n[8] Show all products and the their produced wastes" + 
+                        "\n[9] Exit" +
                         "\nElection: ");
             election = sc_num.nextInt();
             switch(election){
                 case 1:
                     program.registerWaste(); break;
                 case 2:
-                    out.println(program.controller.showWastes()); break;
+                    out.println( program.controller.showWastes(controller.getWastes()) ); break;
                 case 3:
                     program.registerProductWithProvidedWaste(); break;
                 case 4: 
@@ -46,12 +45,10 @@ public class Main {
                 case 6:
                     out.println(program.controller.showProducts()); break;
                 case 7:
-                    break;
+                    program.showSortedWasteByHarmfulEffectForProduct();
                 case 8:
-                    break;
-                case 9:
                     out.println(program.controller.showRelations()); break;
-                case 10:
+                case 9:
                     out.println("Goodbye"); break;
                 default: 
                     out.println("Invalid option. Try again."); break;
@@ -360,6 +357,17 @@ public class Main {
             for(Waste waste : wastes_found){
                 out.println(waste.toString());
             }
+        } else {
+            out.println("ERROR: product with id '" + product_id + "' doesn't exist.");
+        }
+    }
+
+    public void showSortedWasteByHarmfulEffectForProduct(){
+        out.print("Type the id of the product that you want to find its wastes: ");
+        String product_id = sc_str.nextLine();
+        if(controller.productIdExists(product_id)){
+            Waste[] wastes_found = controller.getWastesOf(product_id);
+            out.println(controller.showWastesSortedByHarmfulEffect(wastes_found));
         } else {
             out.println("ERROR: product with id '" + product_id + "' doesn't exist.");
         }
