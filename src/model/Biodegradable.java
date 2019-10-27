@@ -1,6 +1,6 @@
 package model;
 
-public class Biodegradable extends Waste{
+public class Biodegradable extends Waste implements Useful{
     private boolean isSuitableForComposting;
     private static int numberOfObjs = 0;
 
@@ -8,6 +8,11 @@ public class Biodegradable extends Waste{
         super(id, name, origin, color, decomposition_days);
         this.isSuitableForComposting = isSuitableForComposting;
         ++numberOfObjs;
+    }
+
+    @Override
+    public boolean isUseful(){
+        return (super.getDecompositionDays() < 365 && getIsSuitableForComposting());
     }
 
     public static int getNumberOfObjs(){
@@ -20,7 +25,8 @@ public class Biodegradable extends Waste{
     
     @Override
     public double calculateHarmfulEffect(){
-        return  (isSuitableForComposting) ? super.calculateHarmfulEffect() - 0.01 * super.calculateHarmfulEffect() : super.calculateHarmfulEffect(); 
+        double earlierHarmfulEffect = super.calculateHarmfulEffect();
+        return  (isSuitableForComposting) ? (earlierHarmfulEffect - 0.01 * earlierHarmfulEffect) : earlierHarmfulEffect; 
     }
 
     public boolean getIsSuitableForComposting() {
@@ -33,6 +39,7 @@ public class Biodegradable extends Waste{
 
     @Override
     public String toString() {
-        return super.toString() + "- is suitable for composting - " + ((isSuitableForComposting) ? "YES" : "NO") + ")\n";
+        return super.toString() + ", is suitable for composting: " + ((isSuitableForComposting) ? "YES" : "NO") +
+                                ", is useful: " + (isUseful() ? "YES" : "NO") + ") \n";
     }
 }

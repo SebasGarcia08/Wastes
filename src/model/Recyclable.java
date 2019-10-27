@@ -1,6 +1,6 @@
 package model;
 
-public class Recyclable extends Waste {
+public class Recyclable extends Waste implements Useful{
     
     public static final String PAP = "PAPER";
     public static final String CAR = "CARTON";
@@ -23,10 +23,10 @@ public class Recyclable extends Waste {
         return numberOfObjs;
     }
 
-    // public boolean isUsable(){
-    //     boolean hasValidDescription = true;
-    //     return hasValidDescription;
-    // }
+    @Override
+    public boolean isUseful(){
+        return (description != "Not required");
+    }
 
     @Override
     public double calculateHarmfulEffect(){
@@ -52,9 +52,7 @@ public class Recyclable extends Waste {
 
     @Override
     public String toString() {
-        return super.toString() +
-            " type='" + type + "'" +
-            ", description='" + description + "'" +
-            "}";
+        return super.toString() + ", type : " + getType() + ", description : " + getDescription() + 
+                                ", is useful: " + (isUseful() ? "YES" : "NO") + ") \n";
     }
 }

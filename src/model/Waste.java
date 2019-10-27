@@ -27,7 +27,7 @@ public abstract class Waste {
     public double calculateHarmfulEffect() {
         double harmfulEffect = 0;
         for(int i=0; i < RATES.length; i++){
-            if (this.origin.equalsIgnoreCase(ORIGINS[i])) {
+            if (getOrigin().equalsIgnoreCase(ORIGINS[i])) {
                 harmfulEffect = getDecompositionDays() * RATES[i];
             }
         }
@@ -76,6 +76,7 @@ public abstract class Waste {
 
 	@Override
 	public String toString() {
-		return getName() + " - " + getOrigin() + " - " + getColor() + " -  take "  + getDecompositionDays()+ " days to decompose" + " (id - " + getId();  
+		return "name: " + getName() + ", origin: " + getOrigin() + ", color: " + getColor() + ",  take "  + getDecompositionDays()+ " days to decompose" + 
+		", harmful effect: " + calculateHarmfulEffect() + " (id: " + getId();  
 	}
 }
