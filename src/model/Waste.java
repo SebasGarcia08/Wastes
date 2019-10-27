@@ -76,7 +76,6 @@ public abstract class Waste {
 
 	@Override
 	public String toString() {
-		return "Waste [color=" + color + ", decomposition_days=" + decomposition_days + ", id=" + id + ", name=" + name
-				+ ", origin=" + origin;
+		return getName() + " - " + getOrigin() + " - " + getColor() + " -  take "  + getDecompositionDays()+ " days to decompose" + " (id - " + getId();  
 	}
 }

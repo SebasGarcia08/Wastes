@@ -20,8 +20,7 @@ public class Biodegradable extends Waste{
     
     @Override
     public double calculateHarmfulEffect(){
-        double earlierHarmfulEffect = super.calculateHarmfulEffect();
-        return  earlierHarmfulEffect - 0.01 * earlierHarmfulEffect; 
+        return  (isSuitableForComposting) ? super.calculateHarmfulEffect() - 0.01 * super.calculateHarmfulEffect() : super.calculateHarmfulEffect(); 
     }
 
     public boolean getIsSuitableForComposting() {
@@ -34,8 +33,6 @@ public class Biodegradable extends Waste{
 
     @Override
     public String toString() {
-        return super.toString() +
-            " isSuitableForComposting='" + isSuitableForComposting + "'" +
-            "}";
+        return super.toString() + "- is suitable for composting - " + ((isSuitableForComposting) ? "YES" : "NO") + ")\n";
     }
 }

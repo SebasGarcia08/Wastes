@@ -98,6 +98,17 @@ public Product getLastProductAdded(){
         return idx;
     }
 
+    public int searchWasteByName(String wname) {
+        boolean found = false;
+        int idx = -1;
+        for (int i = 0; i < wastes.length && !found; i++) {
+            if (wastes[i].getName().equalsIgnoreCase(wname)) {
+                idx = i;
+                found = true;
+            }
+        }
+        return idx;
+    }
 // ================================================================= APPEND =================================================================
     public void appendProduct(Product new_product) {
         Product[] old_products = getProducts();
@@ -123,10 +134,48 @@ public Product getLastProductAdded(){
 
 // ================================================================= SHOWS =================================================================
     public String showWastes(){
+        char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l','m', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+        int alfa_counter = 0;
         String res = "";
-        for(int i = 0; i < wastes.length; i++) {
-            res += wastes[i].toString() + "\n";
+
+        Biodegradable[] bio_array = new Biodegradable[Biodegradable.getNumberOfObjs()];
+        int j = 0;
+        Recyclable[] rec_array  = new Recyclable[Recyclable.getNumberOfObjs()];
+        int n = 0;
+        Inert[] inert_array = new Inert[Inert.getNumberOfObjs()];
+        int r = 0;
+
+        for(int i = 0; i < getWastes().length; i++) {
+            if( getWastes()[i] instanceof Biodegradable){
+                bio_array[j] = (Biodegradable) getWastes()[i];
+                j++;
+            } else if( getWastes()[i] instanceof Recyclable){
+                rec_array[n] = (Recyclable) getWastes()[i];
+                n++;
+            } else {
+                inert_array[r] = (Inert) getWastes()[i];
+                r++;
+            }
         }
+
+        res += "Biodegradable \n";
+        for(int i = 0; i < bio_array.length; i++) {
+            res += alphabet[alfa_counter] + ".    " + bio_array[i].toString();
+            alfa_counter = (alfa_counter > alphabet.length-1) ? 0 : alfa_counter + 1;
+        }
+
+        res +="Recyclable \n";
+        for(int i = 0; i < rec_array.length; i++) {
+            res += alphabet[alfa_counter] + ".    " + rec_array[i].toString();
+            alfa_counter = (alfa_counter > alphabet.length-1) ? 0 : alfa_counter + 1;
+        }
+
+        res +="Inert \n";
+        for(int i = 0; i < inert_array.length; i++) {
+            res += alphabet[alfa_counter] + ".    " + inert_array[i].toString();
+            alfa_counter = (alfa_counter > alphabet.length-1) ? 0 : alfa_counter + 1;
+        }
+
         return res;
     }
 
@@ -148,7 +197,7 @@ public Product getLastProductAdded(){
                 Waste[] wastes_of_product_i = getWastesOf(getProducts()[i].getId());
                 header = products[i].toString() + "\n";
                 for(int j = 0; j < wastes_of_product_i.length; j++){
-                    corpus += indentation + "|\n" + indentation + "---- produces --> " + wastes_of_product_i[j].toString() + "\n";
+                    corpus += indentation + "|\n" + indentation + "---- produces --> (" + wastes_of_product_i[j].toString() + "\n";
                 }
             }
             msg += header + corpus;

@@ -17,33 +17,45 @@ public class Main {
 
     public static void main(String[] args){
         Main program = new Main();
-        // out.println("WELCOME");
-        // out.println("To begin, please create first a product and later the waste that it produces.");
-        // program.registerProduct();
-        // program.registerWaste();
-        // out.println(program.controller.showRelations());
-        // out.println("Perfect, now, see the complete menu.");
-
         int election = 1;
-        
         while(election != 10){
-            out.print("WLECOME to the wastes manager. Choose: \n[1] To add a waste\n[2] To add a product \n[10] to exit\nElection: ");
+            out.print("WLECOME to the wastes manager. Menu: "+ 
+                        "\n[1] Add a waste"+ 
+                        "\n[2] Generate wastes report"+
+                        "\n[3] Add a product and the wastes it could generate."+
+                        "\n[4] Search waste by name"+
+                        "\n[5] Search wastes by product id"+
+                        "\n[6] Show products added" +
+                        "\n[7] Determine if biodegradable or recyclable waste is useful" +
+                        "\n[8] List wastes by harmful effect" +
+                        "\n[9] Show all products and the their produced wastes" + 
+                        "\n[10] Exit" +
+                        "\nElection: ");
             election = sc_num.nextInt();
             switch(election){
                 case 1:
-                    program.registerWaste();
-                    break;
+                    program.registerWaste(); break;
                 case 2:
-                    program.registerProduct();
+                    out.println(program.controller.showWastes()); break;
+                case 3:
+                    program.registerProductWithProvidedWaste(); break;
+                case 4: 
+                    program.findWasteByName(); break;
+                case 5:
+                    program.findWastesByProductId(); break;
+                case 6:
+                    out.println(program.controller.showProducts()); break;
+                case 7:
                     break;
+                case 8:
+                    break;
+                case 9:
+                    out.println(program.controller.showRelations()); break;
                 case 10:
-                    out.println("Goodbye");
-                    break;
+                    out.println("Goodbye"); break;
                 default: 
-                    out.println("Invalid option. Try again.");
-                    break;
+                    out.println("Invalid option. Try again."); break;
             }
-            out.println(controller.showRelations());
         }
     }
 // ============================================================== REGISTER WASTE CENTER ================================================================
@@ -51,7 +63,44 @@ public class Main {
         out.println(controller.showProducts());
         String product_id = reqProductIdForAddingWaste();
         out.println("REGISTERING WASTE...");
-        
+        String id, name, origin, color; 
+        int decomposition_days;
+
+        id = reqWasteId();
+        name = reqWasteName();
+        origin = reqOrigin();
+        out.print("Decomposition days: ");
+        decomposition_days = sc_num.nextInt();
+        out.print("Color: ");
+        color = sc_str.nextLine();
+
+        boolean valid_type_of_waste = false;
+        char type_of_waste;
+        while(!valid_type_of_waste){
+            out.print("Choose the type of waste produced by your selected product: \n[B]iodegradable\n[R]ecyclable\n[I]nert\nChoose [B/R/I]: ");
+            type_of_waste = sc_str.nextLine().toUpperCase().charAt(0);
+            switch(type_of_waste){
+                case 'B':
+                    valid_type_of_waste = true;
+                    registerWasteB(id, name, origin, color, decomposition_days, product_id);
+                    break;
+                case 'R':
+                    valid_type_of_waste = true;
+                    registerWasteR(id, name, origin, color, decomposition_days, product_id);
+                    break;
+                case 'I': 
+                    valid_type_of_waste = true;
+                    registerWasteI(id, name, origin, color, decomposition_days, product_id);
+                    break;
+                default:
+                    out.println("Invalid choice. Choose 'B', 'R', or 'I'");
+                    break;
+            }
+        }
+    }
+
+    public void registerWasteWithProvidedProduct(String product_id){
+        out.println("REGISTERING WASTE...");
         String id, name, origin, color; 
         int decomposition_days;
         
@@ -160,6 +209,19 @@ public class Main {
         description = sc_str.nextLine();
         controller.addProduct(id, name, description);
         out.println("Successfully added");
+    }
+
+    public void registerProductWithProvidedWaste(){
+         // String id, String name, String description
+         out.println("REGISTERING PRODUCT...");
+         String id, name, description;
+         id = reqProductId();
+         name = reqProductName();
+         out.print("Description: ");
+         description = sc_str.nextLine();
+         controller.addProduct(id, name, description);
+         out.println("Successfully added");
+         registerWasteWithProvidedProduct(controller.getLastProductAdded().getId());
     }
 
     public String reqProductIdForAddingWaste(){
@@ -276,5 +338,30 @@ public class Main {
             }
         }
         return origin;
+    }
+// ================================================================= RF 4 and 5 =================================================================
+    public void findWasteByName(){
+        out.print("Type the name of the searched waste: ");
+        String name = sc_str.nextLine();
+        if(controller.wasteNameExists(name)){
+            String found_waste_info = controller.getWastes()[controller.searchWasteByName(name)].toString(); 
+            out.println(found_waste_info);
+        } else {
+            out.println("ERROR: waste with name '"+name+"' doesn't exist");
+        }
+    }
+
+    public void findWastesByProductId(){
+        out.print("Type the id of the product that you want to find its wastes: ");
+        String product_id = sc_str.nextLine();
+        if(controller.productIdExists(product_id)){
+            Waste[] wastes_found = controller.getWastesOf(product_id);
+            out.println("WASTES found for porduct with id: " + product_id);
+            for(Waste waste : wastes_found){
+                out.println(waste.toString());
+            }
+        } else {
+            out.println("ERROR: product with id '" + product_id + "' doesn't exist.");
+        }
     }
 }
