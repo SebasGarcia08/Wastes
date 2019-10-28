@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"model","l":"Biodegradable"},{"p":"model","l":"Controller"},{"p":"model","l":"Inert"},{"p":"ui","l":"Main"},{"p":"model","l":"Product"},{"p":"model","l":"Recyclable"},{"p":"model","l":"Useful"},{"p":"model","l":"Waste"}]
