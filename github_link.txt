@@ -1,0 +1,7 @@
+https://github.com/SebasGarcia08/Wastes
+
+git clone https://github.com/SebasGarcia08/Wastes.git
+
+Once you're in Wastes folder, type the followinf to run:
+
+java -cp bin ui.Main
