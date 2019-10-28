@@ -238,7 +238,7 @@ public class Main {
      * @param decomposition_days int, days of decomposition of the waste
      * @param product_id String, product id of the product that produces this Inert waste
      */
-    public void registerWasteI(String id, String name, String origin, String color, int decomposition_days, String product_id){
+    public void  {
         out.print("Inert wastes have tips for dealing with them, write them: ");
         String tips = sc_str.nextLine();
         controller.addWasteI(id, name, origin, color, decomposition_days, tips);
