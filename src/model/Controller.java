@@ -1,7 +1,6 @@
 package model;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class Controller {
     private Product[] products;
@@ -108,12 +107,12 @@ public Product getLastProductAdded(){
     //     // Count how many positions aren't null
     //     int num_of_not_null_positions = 0;
     //     for(Waste waste: wastes_with_null_positions){
-    //         num_of_not_null_positions = (waste != null) ? 1 : 0; 
+    //         num_of_not_null_positions += (waste != null) ? 1 : 0; 
     //     }
         
     //     // Intiialize clean waste array
     //     Waste[] clean_array = new Waste[num_of_not_null_positions];
-    //     int j= 0; // Counter for clean array
+    //     int j = 0; // Counter for clean array
     //     for(int i = 0; i < wastes_with_null_positions.length; i++){
     //         if(wastes_with_null_positions[i] != null){
     //             clean_array[j] = wastes_with_null_positions[i];

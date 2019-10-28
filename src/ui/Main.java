@@ -24,7 +24,7 @@ public class Main {
         Main program = new Main();
         out.println("WELCOME to the wastes manager!");
         int election = 1;
-        while(election != 10){
+        while(election != 9){
             out.print("\n=============== MENU ==============="+ 
                         "\n[1] Add a waste"+ 
                         "\n[2] Generate wastes report"+
